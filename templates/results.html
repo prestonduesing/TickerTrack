@@ -1,0 +1,69 @@
+<!-- templates/results.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TickerTrack - Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>TickerTrack</h1>
+        <p>Explore stock data with interactive charts</p>
+    </header>
+
+    <!-- Main Content -->
+    <div class="content">
+        <!-- Stock Information Box -->
+        <div class="stock-info">
+            <h1>{{ stock_name }} ({{ ticker }})</h1>
+            <p><strong>Market Cap:</strong> {{ market_cap }}</p>
+            <p><strong>Industry:</strong> {{ industry }}</p>
+            <p><strong>P/E Ratio:</strong> {{ pe_ratio }}</p>
+        </div>
+
+        <!-- Price Chart with Moving Averages -->
+        <div id="price_chart"></div>
+
+        <!-- Volume Chart -->
+        <div id="volume_chart"></div>
+
+        <!-- High-Low Range Chart -->
+        <div id="high_low_chart"></div>
+
+        <!-- Candlestick Chart -->
+        <div id="candlestick_chart"></div>
+
+        <!-- Back Link -->
+        <a href="{{ url_for('index') }}">Search Another Ticker</a>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 TickerTrack. All rights reserved.</p>
+    </footer>
+
+    <!-- Include Plotly library for charts -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript">
+        // Render the Price Chart with Moving Averages
+        var priceGraphJSON = {{ price_graphJSON | safe }};
+        Plotly.react('price_chart', priceGraphJSON.data, priceGraphJSON.layout);
+
+        // Render the Volume Chart
+        var volumeGraphJSON = {{ volume_graphJSON | safe }};
+        Plotly.react('volume_chart', volumeGraphJSON.data, volumeGraphJSON.layout);
+
+        // Render the High-Low Range Chart
+        var highLowGraphJSON = {{ high_low_graphJSON | safe }};
+        Plotly.react('high_low_chart', highLowGraphJSON.data, highLowGraphJSON.layout);
+
+        // Render the Candlestick Chart
+        var candlestickGraphJSON = {{ candlestick_graphJSON | safe }};
+        Plotly.react('candlestick_chart', candlestickGraphJSON.data, candlestickGraphJSON.layout);
+    </script>
+</body>
+</html>
